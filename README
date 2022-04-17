@@ -1,0 +1,9 @@
+A test application written in:
+
+* Chi (middleware, render)
+* SQLBoiler (sqlite)
+* AWS SDK v2
+* Prometheus go client
+* zerolog/CloudWatch
+
+This is a PUBLIC DOMAIN.

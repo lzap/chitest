@@ -2,7 +2,7 @@ package main
 
 import (
 	"chitest/pkg/db"
-	"chitest/pkg/services"
+	"chitest/pkg/routes"
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
@@ -20,10 +20,7 @@ func main() {
 	r.Use(middleware.URLFormat)
 	r.Use(render.SetContentType(render.ContentTypeJSON))
 
-	r.Route("/ssh_keys", func(r chi.Router) {
-		r.Get("/", services.ListSshKeys)
-		//r.Post("/", ListSshKeys)
-	})
+	routes.SetupRoutes(r)
 
 	http.ListenAndServe(":3000", r)
 }

@@ -10,25 +10,35 @@ import (
 type SSHKeyPayload struct {
 	*models.SSHKey
 }
+type SSHKeyRequest SSHKeyPayload
+type SSHKeyResponse SSHKeyPayload
 
-func NewSSHKeyPayloadResponse(sshKey *models.SSHKey) *SSHKeyPayload {
-	return &SSHKeyPayload{SSHKey: sshKey}
+func (p *SSHKeyRequest) Bind(r *http.Request) error {
+	return nil
+}
+
+func (p *SSHKeyRequest) Render(w http.ResponseWriter, r *http.Request) error {
+	return nil
+}
+
+func (p *SSHKeyResponse) Bind(r *http.Request) error {
+	return nil
+}
+
+func (p *SSHKeyResponse) Render(w http.ResponseWriter, r *http.Request) error {
+	return nil
+}
+
+func NewSshKeyResponse(sshKey *models.SSHKey) render.Renderer {
+	return &SSHKeyResponse{SSHKey: sshKey}
 }
 
 func NewSSHKeyListResponse(sshKeys []*models.SSHKey) []render.Renderer {
 	list := []render.Renderer{}
 	for _, k := range sshKeys {
-		list = append(list, NewSSHKeyPayloadResponse(k))
+		list = append(list, &SSHKeyResponse{SSHKey: k})
 	}
 	return list
-}
-
-func (u *SSHKeyPayload) Bind(r *http.Request) error {
-	return nil
-}
-
-func (u *SSHKeyPayload) Render(w http.ResponseWriter, r *http.Request) error {
-	return nil
 }
 
 // ErrResponse renderer type for handling all sorts of errors.
