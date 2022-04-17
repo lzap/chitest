@@ -14,6 +14,7 @@ func SetupRoutes(r *chi.Mux) {
 		r.Route("/{ID}", func(r chi.Router) {
 			r.Use(middleware.SshKeyCtx)
 			r.Get("/", s.GetSshKey)
+			r.Put("/", s.UpdateSshKey)
 			r.Delete("/", s.DeleteSshKey)
 		})
 	})
