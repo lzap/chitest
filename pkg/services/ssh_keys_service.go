@@ -36,3 +36,13 @@ func GetSshKey(w http.ResponseWriter, r *http.Request) {
 	sshKey := r.Context().Value("sshKey").(*m.SSHKey)
 	render.Render(w, r, p.NewSshKeyResponse(sshKey))
 }
+
+func DeleteSshKey(w http.ResponseWriter, r *http.Request) {
+	sshKey := r.Context().Value("sshKey").(*m.SSHKey)
+	deletedID := sshKey.DeleteP(r.Context(), db.DB)
+	if deletedID == 1 {
+		render.Render(w, r, p.NewSshKeyResponse(sshKey))
+	} else {
+		render.Render(w, r, p.ErrDeleteError)
+	}
+}

@@ -80,3 +80,4 @@ func ErrRender(err error) render.Renderer {
 
 var ErrNotFound = &ErrResponse{HTTPStatusCode: 404, StatusText: "Resource not found"}
 var ErrParamParsingError = &ErrResponse{HTTPStatusCode: 500, StatusText: "Cannot parse parameters"}
+var ErrDeleteError = &ErrResponse{HTTPStatusCode: 500, StatusText: "Cannot delete resource"}
