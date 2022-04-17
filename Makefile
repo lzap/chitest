@@ -8,6 +8,6 @@ models: sqlboiler.toml
 	sqlboiler sqlite3 --wipe -o pkg/models
 
 migrate:
-	sqlite3 devel.sqlite3 < cmd/migrate/schema.sql
+	sqlite3 devel.db < cmd/migrate/schema.sql
 
 .PHONY: build models migrate
