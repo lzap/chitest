@@ -4,7 +4,9 @@
 package models
 
 var TableNames = struct {
-	SSHKeys string
+	SSHKeyResources string
+	SSHKeys         string
 }{
-	SSHKeys: "ssh_keys",
+	SSHKeyResources: "ssh_key_resources",
+	SSHKeys:         "ssh_keys",
 }

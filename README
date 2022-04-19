@@ -2,12 +2,13 @@ A test application.
 
 Models:
 
-* SSHKey (ID, Body)
+* SSHKey (ID, body): a public key
+* SSHKeyResource (ID, ssh_key_id, cid): key pair on AWS/EC2
 
 Operations:
 
 * SSHKey CRUD
-* SSHKey deploy to AWS/EC2
+* SSHKey resource upload (import key to EC2)
 
 It is written in:
 

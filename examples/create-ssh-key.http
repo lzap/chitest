@@ -1,0 +1,6 @@
+POST http://localhost:3000/ssh_keys HTTP/1.1
+Content-Type: application/json
+
+{
+    "body": "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEhnn80ZywmjeBFFOGm+cm+5HUwm62qTVnjKlOdYFLHN test"
+}

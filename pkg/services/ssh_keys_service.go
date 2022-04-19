@@ -10,7 +10,7 @@ import (
 	"github.com/volatiletech/sqlboiler/v4/boil"
 )
 
-func CreateArticle(w http.ResponseWriter, r *http.Request) {
+func CreateSShKey(w http.ResponseWriter, r *http.Request) {
 	data := &p.SSHKeyRequest{}
 	if err := render.Bind(r, data); err != nil {
 		render.Render(w, r, p.ErrInvalidRequest(err))
@@ -34,6 +34,7 @@ func ListSshKeys(w http.ResponseWriter, r *http.Request) {
 
 func GetSshKey(w http.ResponseWriter, r *http.Request) {
 	sshKey := r.Context().Value("sshKey").(*m.SSHKey)
+	sshKey.SSHKeyResources()
 	render.Render(w, r, p.NewSshKeyResponse(sshKey))
 }
 

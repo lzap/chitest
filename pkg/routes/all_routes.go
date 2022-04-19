@@ -10,12 +10,16 @@ import (
 func SetupRoutes(r *chi.Mux) {
 	r.Route("/ssh_keys", func(r chi.Router) {
 		r.Get("/", s.ListSshKeys)
-		r.Post("/", s.CreateArticle)
+		r.Post("/", s.CreateSShKey)
 		r.Route("/{ID}", func(r chi.Router) {
 			r.Use(middleware.SshKeyCtx)
 			r.Get("/", s.GetSshKey)
 			r.Put("/", s.UpdateSshKey)
 			r.Delete("/", s.DeleteSshKey)
+			r.Route("/resources", func(r chi.Router) {
+				r.Get("/", s.ListSshKeyResources)
+				r.Post("/", s.CreateSshKeyResource)
+			})
 		})
 	})
 }
