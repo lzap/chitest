@@ -1,4 +1,15 @@
-A test application written in:
+A test application.
+
+Models:
+
+* SSHKey (ID, Body)
+
+Operations:
+
+* SSHKey CRUD
+* SSHKey deploy to AWS/EC2
+
+It is written in:
 
 * Chi (middleware, render)
 * SQLBoiler (sqlite)

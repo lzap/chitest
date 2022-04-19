@@ -1,8 +1,8 @@
 output = "pkg/models"
 debug = true
 no-tests = true
-add-global-variants	= true
+add-global-variants	= false
 add-panic-variants = true
 
 [sqlite3]
-dbname = "devel.sqlite3"
+dbname = "devel.db"

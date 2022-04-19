@@ -1,6 +1,7 @@
 package main
 
 import (
+	"chitest/pkg/clouds/aws"
 	"chitest/pkg/db"
 	"chitest/pkg/routes"
 	"net/http"
@@ -12,6 +13,8 @@ import (
 
 func main() {
 	db.InitDatabase()
+
+	aws.InitializeAWSClient()
 
 	r := chi.NewRouter()
 	r.Use(middleware.RequestID)
