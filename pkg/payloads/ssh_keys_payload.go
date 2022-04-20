@@ -17,14 +17,6 @@ func (p *SSHKeyRequest) Bind(r *http.Request) error {
 	return nil
 }
 
-func (p *SSHKeyRequest) Render(w http.ResponseWriter, r *http.Request) error {
-	return nil
-}
-
-func (p *SSHKeyResponse) Bind(r *http.Request) error {
-	return nil
-}
-
 func (p *SSHKeyResponse) Render(w http.ResponseWriter, r *http.Request) error {
 	return nil
 }
