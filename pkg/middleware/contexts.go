@@ -45,3 +45,28 @@ func SshKeyCtx(next http.Handler) http.Handler {
 		next.ServeHTTP(w, r.WithContext(ctx))
 	})
 }
+
+func SshKeyResourceCtx(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		var id int64
+		var sshKey *m.SSHKeyResource
+		var err error
+
+		if id, err = parseInt64(r, "RID"); err == nil {
+			sshKey, err = m.FindSSHKeyResource(r.Context(), db.DB, id)
+			if err != nil {
+				render.Render(w, r, p.ErrNotFound)
+				return
+			}
+		} else if err != nil {
+			render.Render(w, r, p.ErrParamParsingError)
+			return
+		} else {
+			render.Render(w, r, p.ErrNotFound)
+			return
+		}
+
+		ctx := context.WithValue(r.Context(), "sshKeyResource", sshKey)
+		next.ServeHTTP(w, r.WithContext(ctx))
+	})
+}

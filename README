@@ -10,6 +10,19 @@ Operations:
 * SSHKey CRUD
 * SSHKey resource upload (import key to EC2)
 
+How to test it:
+
+    go get
+    make migrate
+    make run
+
+Use examples/xxx.http files with VSCode "REST Client" plugin to perform REST operations.
+
+Setting up EC2 access (needed for import key operation):
+
+    cp .env.example .env
+    vi .env
+
 It is written in:
 
 * Chi (middleware, render)

@@ -19,6 +19,10 @@ func SetupRoutes(r *chi.Mux) {
 			r.Route("/resources", func(r chi.Router) {
 				r.Get("/", s.ListSshKeyResources)
 				r.Post("/", s.CreateSshKeyResource)
+				r.Route("/{RID}", func(r chi.Router) {
+					r.Use(middleware.SshKeyResourceCtx)
+					r.Delete("/", s.DeleteSshKeyResource)
+				})
 			})
 		})
 	})
