@@ -10,7 +10,7 @@ import (
 
 var Client *ec2.Client
 
-func InitializeAWSClient() {
+func Initialize() {
 	key := os.Getenv("AWS_KEY")
 	secret := os.Getenv("AWS_SECRET")
 	session := os.Getenv("AWS_SESSION")

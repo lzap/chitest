@@ -12,7 +12,7 @@ import (
 
 var DB *sql.DB
 
-func InitDatabase() {
+func Initialize() {
 	var err error
 	DB, err = sql.Open("sqlite", fmt.Sprintf("file:%s?_loc=UTC", "devel.db"))
 	if err != nil {
