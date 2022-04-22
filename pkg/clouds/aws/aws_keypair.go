@@ -11,7 +11,7 @@ func ImportSSHKey(ctx context.Context, body string) (string, error) {
 	input := &ec2.ImportKeyPairInput{}
 	input.KeyName = aws.String("Red Hat Portal Key")
 	input.PublicKeyMaterial = []byte(body)
-	output, err := Client.ImportKeyPair(ctx, input)
+	output, err := EC2.ImportKeyPair(ctx, input)
 
 	if err != nil {
 		return "", err
@@ -23,7 +23,7 @@ func ImportSSHKey(ctx context.Context, body string) (string, error) {
 func DeleteSSHKey(ctx context.Context, cid string) error {
 	input := &ec2.DeleteKeyPairInput{}
 	input.KeyPairId = aws.String(cid)
-	_, err := Client.DeleteKeyPair(ctx, input)
+	_, err := EC2.DeleteKeyPair(ctx, input)
 
 	if err != nil {
 		return err

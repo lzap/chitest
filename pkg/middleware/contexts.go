@@ -1,6 +1,7 @@
 package middleware
 
 import (
+	"chitest/pkg/ctx"
 	"chitest/pkg/db"
 	m "chitest/pkg/models"
 	p "chitest/pkg/payloads"
@@ -41,7 +42,7 @@ func SshKeyCtx(next http.Handler) http.Handler {
 			return
 		}
 
-		ctx := context.WithValue(r.Context(), "sshKey", sshKey)
+		ctx := context.WithValue(r.Context(), ctx.SshKeyCtxKey, sshKey)
 		next.ServeHTTP(w, r.WithContext(ctx))
 	})
 }
@@ -66,7 +67,7 @@ func SshKeyResourceCtx(next http.Handler) http.Handler {
 			return
 		}
 
-		ctx := context.WithValue(r.Context(), "sshKeyResource", sshKey)
+		ctx := context.WithValue(r.Context(), ctx.SshKeyResourceCtxKey, sshKey)
 		next.ServeHTTP(w, r.WithContext(ctx))
 	})
 }

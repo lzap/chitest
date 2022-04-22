@@ -2,11 +2,15 @@ package config
 
 import (
 	"os"
+	"strconv"
 	"sync"
 )
 
 type LoggingConfig struct {
+	// Global level (-1 trace, 0 debug, 1 info ... 5 panic)
+	Level      int
 	Cloudwatch bool
+	Stdout     bool
 	CWGroup    string
 	CWStream   string
 	AWSRegion  string
@@ -21,8 +25,11 @@ var loggingConfig LoggingConfig
 var initMutex sync.Mutex
 
 func initializeConfig() {
+	level, _ := strconv.Atoi(os.Getenv("LOG_LEVEL"))
 	loggingConfig = LoggingConfig{
-		Cloudwatch:  os.Getenv("CLOUDWATCH") == "1",
+		Level:       level,
+		Stdout:      os.Getenv("STDOUT_LOG") == "1",
+		Cloudwatch:  os.Getenv("CLOUDWATCH_LOG") == "1",
 		CWGroup:     os.Getenv("CLOUDWATCH_GROUP"),
 		CWStream:    os.Getenv("CLOUDWATCH_STREAM"),
 		AWSRegion:   os.Getenv("AWS_REGION"),

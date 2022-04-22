@@ -15,18 +15,28 @@ import (
 )
 
 func main() {
-	logging.Initialize()
-	db.Initialize()
+	// initialize stdout logging and AWS clients first
+	log.Logger = logging.InitializeStdout()
 	aws.Initialize()
+
+	// initialize cloudwatch using the AWS clients
+	logger, close, err := logging.InitializeCloudwatch(log.Logger)
+	if err != nil {
+		log.Fatal().Err(err)
+	}
+	defer close()
+	log.Logger = logger
+
+	// initialize the rest
+	db.Initialize()
 
 	r := chi.NewRouter()
 	r.Use(middleware.RequestID)
-	//r.Use(middleware.Recoverer)
 	r.Use(middleware.URLFormat)
 	r.Use(m.LoggerMiddleware(&log.Logger))
 	r.Use(render.SetContentType(render.ContentTypeJSON))
-
 	routes.SetupRoutes(r)
 
+	log.Info().Msg("New instance started ")
 	http.ListenAndServe(":3000", r)
 }
