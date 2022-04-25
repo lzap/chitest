@@ -55,8 +55,8 @@ func LoggerMiddleware(rootLogger *zerolog.Logger) func(next http.Handler) http.H
 
 				log.Info().
 					Int("status", ww.Status()).
-					Msg(fmt.Sprintf("Completed %s request %s in %d ms with %d",
-						r.Method, r.URL.Path, duration.Milliseconds(), ww.Status()))
+					Msg(fmt.Sprintf("Completed %s request %s in %s ms with %d",
+						r.Method, r.URL.Path, duration.Round(time.Millisecond).String(), ww.Status()))
 			}()
 
 			ctx := context.WithValue(r.Context(), ctxval.LoggerCtxKey, logger)

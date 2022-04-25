@@ -4,7 +4,7 @@ import (
 	"github.com/prometheus/client_golang/prometheus"
 )
 
-var Buckets []float64 = []float64{.5, 1, 5, 10, 50}
+var Buckets []float64 = []float64{.05, .1, .25, .5, 1}
 
 var HTTPRequestsTotal = prometheus.NewCounterVec(
 	prometheus.CounterOpts{
