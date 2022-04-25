@@ -1,0 +1,2 @@
+// @no-log
+GET http://localhost:3000/metrics HTTP/1.1

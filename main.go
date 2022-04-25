@@ -6,6 +6,7 @@ import (
 	"chitest/pkg/logging"
 	m "chitest/pkg/middleware"
 	"chitest/pkg/routes"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
@@ -33,9 +34,11 @@ func main() {
 	r := chi.NewRouter()
 	r.Use(m.RequestID)
 	r.Use(m.RequestNum)
+	r.Use(m.MetricsMiddleware)
 	r.Use(middleware.URLFormat)
 	r.Use(m.LoggerMiddleware(&log.Logger))
 	r.Use(render.SetContentType(render.ContentTypeJSON))
+	r.Handle("/metrics", promhttp.Handler())
 	routes.SetupRoutes(r)
 
 	log.Info().Msg("New instance started ")
