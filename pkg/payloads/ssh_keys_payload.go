@@ -26,7 +26,7 @@ func NewSshKeyResponse(sshKey *models.SSHKey) render.Renderer {
 }
 
 func NewSSHKeyListResponse(sshKeys []*models.SSHKey) []render.Renderer {
-	list := []render.Renderer{}
+	var list []render.Renderer
 	for _, k := range sshKeys {
 		list = append(list, &SSHKeyResponse{SSHKey: k})
 	}

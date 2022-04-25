@@ -18,6 +18,6 @@ func Initialize() {
 	if err != nil {
 		panic(err)
 	}
-	DB.Ping()
+	_ = DB.Ping()
 	boil.SetDB(DB)
 }

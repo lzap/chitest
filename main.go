@@ -20,11 +20,11 @@ func main() {
 	aws.Initialize()
 
 	// initialize cloudwatch using the AWS clients
-	logger, close, err := logging.InitializeCloudwatch(log.Logger)
+	logger, clsFunc, err := logging.InitializeCloudwatch(log.Logger)
 	if err != nil {
 		log.Fatal().Err(err)
 	}
-	defer close()
+	defer clsFunc()
 	log.Logger = logger
 
 	// initialize the rest
@@ -32,6 +32,7 @@ func main() {
 
 	r := chi.NewRouter()
 	r.Use(m.RequestID)
+	r.Use(m.RequestNum)
 	r.Use(middleware.URLFormat)
 	r.Use(m.LoggerMiddleware(&log.Logger))
 	r.Use(render.SetContentType(render.ContentTypeJSON))

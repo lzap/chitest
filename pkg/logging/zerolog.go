@@ -39,7 +39,7 @@ func InitializeCloudwatch(logger zerolog.Logger) (zerolog.Logger, func(), error)
 		log.Debug().Msg("Initializing cloudwatch logger")
 		cloudWatchWriter, err := cww.NewWithClient(aws.CWL, 500*time.Millisecond, conf.CWGroup, conf.CWStream)
 		if err != nil {
-			return logger, nil, fmt.Errorf("Cannot initialize cloudwatch: %w", err)
+			return logger, nil, fmt.Errorf("cannot initialize cloudwatch: %w", err)
 		}
 
 		if conf.Stdout {

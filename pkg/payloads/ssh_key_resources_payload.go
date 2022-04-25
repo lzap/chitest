@@ -22,7 +22,7 @@ func (p *SSHKeyResourceResponse) Render(w http.ResponseWriter, r *http.Request) 
 }
 
 func NewSSHKeyResourceListResponse(sshKeys []*models.SSHKeyResource) []render.Renderer {
-	list := []render.Renderer{}
+	var list []render.Renderer
 	for _, k := range sshKeys {
 		list = append(list, &SSHKeyResourceResponse{SSHKeyResource: k})
 	}
