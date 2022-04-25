@@ -2,8 +2,8 @@ package services
 
 import (
 	"chitest/pkg/clouds/aws"
-	"chitest/pkg/ctxval"
 	"chitest/pkg/db"
+	"chitest/pkg/middleware"
 	"chitest/pkg/models"
 	m "chitest/pkg/models"
 	p "chitest/pkg/payloads"
@@ -13,7 +13,8 @@ import (
 )
 
 func CreateSshKeyResource(w http.ResponseWriter, r *http.Request) {
-	existing := r.Context().Value(ctxval.SshKeyCtxKey).(*m.SSHKey)
+	existing := middleware.SshKeyFromCtx(r.Context())
+
 	// resource
 	cid, err := aws.ImportSSHKey(r.Context(), existing.Body)
 	if err != nil {
@@ -29,6 +30,8 @@ func CreateSshKeyResource(w http.ResponseWriter, r *http.Request) {
 }
 
 func ListSshKeyResources(w http.ResponseWriter, r *http.Request) {
+	logger := ContextLogger(r)
+	logger.Info().Msg("Listing ssh key resources")
 	keys := m.SSHKeyResources().AllP(r.Context(), db.DB)
 	if err := render.RenderList(w, r, p.NewSSHKeyResourceListResponse(keys)); err != nil {
 		render.Render(w, r, p.ErrRender(err))
@@ -37,7 +40,8 @@ func ListSshKeyResources(w http.ResponseWriter, r *http.Request) {
 }
 
 func DeleteSshKeyResource(w http.ResponseWriter, r *http.Request) {
-	existing := r.Context().Value("sshKeyResource").(*m.SSHKeyResource)
+	existing := middleware.SshKeyResourceFromCtx(r.Context())
+
 	// resource
 	err := aws.DeleteSSHKey(r.Context(), existing.Cid)
 	if err != nil {

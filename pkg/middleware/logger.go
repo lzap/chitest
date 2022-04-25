@@ -1,6 +1,7 @@
 package middleware
 
 import (
+	"chitest/pkg/config"
 	"chitest/pkg/ctxval"
 	"context"
 	"fmt"
@@ -40,14 +41,16 @@ func LoggerMiddleware(rootLogger *zerolog.Logger) func(next http.Handler) http.H
 					Int("bytes_out", ww.BytesWritten()).
 					Logger()
 
-				if rec := recover(); rec != nil {
-					log.Error().
-						Bool("panic", true).
-						Int("status", panicStatus).
-						Interface("recover_info", rec).
-						Bytes("debug_stack", debug.Stack()).
-						Msg("Unhandled panic")
-					http.Error(ww, http.StatusText(panicStatus), panicStatus)
+				if !config.GetLoggingConfig().ExitOnPanic {
+					if rec := recover(); rec != nil {
+						log.Error().
+							Bool("panic", true).
+							Int("status", panicStatus).
+							Interface("recover_info", rec).
+							Bytes("debug_stack", debug.Stack()).
+							Msg("Unhandled panic")
+						http.Error(ww, http.StatusText(panicStatus), panicStatus)
+					}
 				}
 
 				log.Info().

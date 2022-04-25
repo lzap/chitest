@@ -1,4 +1,17 @@
-A test application.
+A test microservice application.
+
+https://github.com/lzap/chitest
+
+Manage SSH public keys via REST API and upload them as Key Pairs to AWS EC2.
+
+Dependencies:
+
+* Chi (routing, middleware, render)
+* SQLBoiler (models)
+* SQLite
+* zerolog/CloudWatch
+* Prometheus go client
+* AWS SDK v2
 
 Models:
 
@@ -8,7 +21,7 @@ Models:
 Operations:
 
 * SSHKey CRUD
-* SSHKey resource upload (import key to EC2)
+* SSHKey resource upload (import key to EC2) and delete
 
 How to test it:
 
@@ -22,13 +35,5 @@ Setting up EC2 access (needed for import key operation):
 
     cp .env.example .env
     vi .env
-
-It is written in:
-
-* Chi (middleware, render)
-* SQLBoiler (sqlite)
-* AWS SDK v2
-* Prometheus go client
-* zerolog/CloudWatch
 
 This is a PUBLIC DOMAIN.

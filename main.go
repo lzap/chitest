@@ -10,7 +10,6 @@ import (
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
-	"github.com/go-chi/chi/v5/middleware"
 	"github.com/go-chi/render"
 	"github.com/rs/zerolog/log"
 )
@@ -35,7 +34,6 @@ func main() {
 	r.Use(m.RequestID)
 	r.Use(m.RequestNum)
 	r.Use(m.MetricsMiddleware)
-	r.Use(middleware.URLFormat)
 	r.Use(m.LoggerMiddleware(&log.Logger))
 	r.Use(render.SetContentType(render.ContentTypeJSON))
 	r.Handle("/metrics", promhttp.Handler())

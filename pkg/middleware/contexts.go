@@ -47,6 +47,10 @@ func SshKeyCtx(next http.Handler) http.Handler {
 	})
 }
 
+func SshKeyFromCtx(ctx context.Context) *m.SSHKey {
+	return ctx.Value(ctxval.SshKeyCtxKey).(*m.SSHKey)
+}
+
 func SshKeyResourceCtx(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		var id int64
@@ -70,4 +74,8 @@ func SshKeyResourceCtx(next http.Handler) http.Handler {
 		ctx := context.WithValue(r.Context(), ctxval.SshKeyResourceCtxKey, sshKey)
 		next.ServeHTTP(w, r.WithContext(ctx))
 	})
+}
+
+func SshKeyResourceFromCtx(ctx context.Context) *m.SSHKeyResource {
+	return ctx.Value(ctxval.SshKeyResourceCtxKey).(*m.SSHKeyResource)
 }
