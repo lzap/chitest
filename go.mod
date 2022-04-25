@@ -12,6 +12,7 @@ require (
 	github.com/go-chi/chi/v5 v5.0.7
 	github.com/go-chi/render v1.0.1
 	github.com/lzap/cloudwatchwriter2 v0.0.0-20220422105429-49017f04c285
+	github.com/rs/xid v1.3.0
 	github.com/rs/zerolog v1.26.1
 	github.com/volatiletech/sqlboiler v3.7.1+incompatible
 	github.com/volatiletech/sqlboiler/v4 v4.10.2

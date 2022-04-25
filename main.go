@@ -31,7 +31,7 @@ func main() {
 	db.Initialize()
 
 	r := chi.NewRouter()
-	r.Use(middleware.RequestID)
+	r.Use(m.RequestID)
 	r.Use(middleware.URLFormat)
 	r.Use(m.LoggerMiddleware(&log.Logger))
 	r.Use(render.SetContentType(render.ContentTypeJSON))

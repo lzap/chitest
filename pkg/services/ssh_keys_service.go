@@ -1,7 +1,7 @@
 package services
 
 import (
-	"chitest/pkg/ctx"
+	"chitest/pkg/ctxval"
 	"chitest/pkg/db"
 	m "chitest/pkg/models"
 	p "chitest/pkg/payloads"
@@ -26,6 +26,8 @@ func CreateSShKey(w http.ResponseWriter, r *http.Request) {
 }
 
 func ListSshKeys(w http.ResponseWriter, r *http.Request) {
+	logger := ContextLogger(r)
+	logger.Info().Msg("Listing ssh keys")
 	keys := m.SSHKeys().AllP(r.Context(), db.DB)
 	if err := render.RenderList(w, r, p.NewSSHKeyListResponse(keys)); err != nil {
 		render.Render(w, r, p.ErrRender(err))
@@ -34,13 +36,13 @@ func ListSshKeys(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetSshKey(w http.ResponseWriter, r *http.Request) {
-	sshKey := r.Context().Value(ctx.SshKeyCtxKey).(*m.SSHKey)
+	sshKey := r.Context().Value(ctxval.SshKeyCtxKey).(*m.SSHKey)
 	sshKey.SSHKeyResources()
 	render.Render(w, r, p.NewSshKeyResponse(sshKey))
 }
 
 func DeleteSshKey(w http.ResponseWriter, r *http.Request) {
-	sshKey := r.Context().Value(ctx.SshKeyCtxKey).(*m.SSHKey)
+	sshKey := r.Context().Value(ctxval.SshKeyCtxKey).(*m.SSHKey)
 	rows := sshKey.DeleteP(r.Context(), db.DB)
 	if rows == 1 {
 		render.Render(w, r, p.NewSshKeyResponse(sshKey))
@@ -50,7 +52,7 @@ func DeleteSshKey(w http.ResponseWriter, r *http.Request) {
 }
 
 func UpdateSshKey(w http.ResponseWriter, r *http.Request) {
-	existing := r.Context().Value(ctx.SshKeyCtxKey).(*m.SSHKey)
+	existing := r.Context().Value(ctxval.SshKeyCtxKey).(*m.SSHKey)
 	data := &p.SSHKeyRequest{}
 	if err := render.Bind(r, data); err != nil {
 		render.Render(w, r, p.ErrInvalidRequest(err))

@@ -1,6 +1,8 @@
 package middleware
 
 import (
+	"chitest/pkg/ctxval"
+	"context"
 	"fmt"
 	"net/http"
 	"runtime/debug"
@@ -13,22 +15,26 @@ import (
 
 var panicStatus = http.StatusInternalServerError
 
-func LoggerMiddleware(logger *zerolog.Logger) func(next http.Handler) http.Handler {
+func LoggerMiddleware(rootLogger *zerolog.Logger) func(next http.Handler) http.Handler {
 	return func(next http.Handler) http.Handler {
 		fn := func(w http.ResponseWriter, r *http.Request) {
 			ww := middleware.NewWrapResponseWriter(w, r.ProtoMajor)
+			bytesIn, _ := strconv.Atoi(r.Header.Get("Content-Length"))
+			rid := ctxval.GetValue(r.Context(), ctxval.RequestIdCtxKey)
+			logger := rootLogger.With().
+				Timestamp().
+				Str("rid", rid).
+				Str("remote_ip", r.RemoteAddr).
+				Str("url", r.URL.Path).
+				Str("method", r.Method).
+				Int("bytes_in", bytesIn).
+				Logger()
 			t1 := time.Now()
 
 			defer func() {
 				duration := time.Since(t1)
-				bytes_in, _ := strconv.Atoi(r.Header.Get("Content-Length"))
 				log := logger.With().
-					Timestamp().
 					Dur("latency_ms", duration).
-					Str("remote_ip", r.RemoteAddr).
-					Str("url", r.URL.Path).
-					Str("method", r.Method).
-					Int("bytes_in", bytes_in).
 					Int("bytes_out", ww.BytesWritten()).
 					Logger()
 
@@ -48,7 +54,8 @@ func LoggerMiddleware(logger *zerolog.Logger) func(next http.Handler) http.Handl
 						r.Method, r.URL.Path, duration.Milliseconds(), ww.Status()))
 			}()
 
-			next.ServeHTTP(ww, r)
+			ctx := context.WithValue(r.Context(), ctxval.LoggerCtxKey, logger)
+			next.ServeHTTP(ww, r.WithContext(ctx))
 		}
 		return http.HandlerFunc(fn)
 	}

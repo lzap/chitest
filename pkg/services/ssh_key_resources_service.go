@@ -2,7 +2,7 @@ package services
 
 import (
 	"chitest/pkg/clouds/aws"
-	"chitest/pkg/ctx"
+	"chitest/pkg/ctxval"
 	"chitest/pkg/db"
 	"chitest/pkg/models"
 	m "chitest/pkg/models"
@@ -13,7 +13,7 @@ import (
 )
 
 func CreateSshKeyResource(w http.ResponseWriter, r *http.Request) {
-	existing := r.Context().Value(ctx.SshKeyCtxKey).(*m.SSHKey)
+	existing := r.Context().Value(ctxval.SshKeyCtxKey).(*m.SSHKey)
 	// resource
 	cid, err := aws.ImportSSHKey(r.Context(), existing.Body)
 	if err != nil {
